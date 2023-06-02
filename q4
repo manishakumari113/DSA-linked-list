@@ -1,0 +1,234 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+  struct node*prev;
+  struct node*next;
+  int data;
+};
+struct node*Head=NULL;
+struct node*Tail=NULL;
+ 
+void createlist()
+{
+   int n,i;
+   printf("Enter no.of newnode to create:");
+   scanf("%d",&n);
+   for(i=1;i<=n;i++)
+   {
+    struct node *newnode=(struct node*)malloc(sizeof(struct node));
+    printf("Enter data of node %d:",i);
+    scanf("%d",&newnode->data);
+    newnode->prev=NULL;
+    newnode->next=NULL;
+    if(Head==NULL)
+    {
+     Head=newnode;
+     Tail=newnode;
+    }
+    else
+    {
+     Tail->next=newnode;
+     newnode->prev=Tail;
+     Tail=newnode;
+    }
+   }
+}
+void traverse_forward()
+{
+   struct node*ptr;
+   ptr=Head;
+   while(ptr!=NULL)
+   {
+     printf("%d\t",ptr->data);
+     ptr=ptr->next;
+   }
+}
+void traverse_backward()
+{
+   struct node*ptr;
+   ptr=Tail;
+   while(ptr!=NULL)
+   {
+    printf("%d\t",ptr->data);
+    ptr=ptr->prev;
+   }
+}
+  void check()
+  {
+    if(Head==NULL)
+    {
+      printf("List is empty\n");
+    }
+    else
+    {
+     printf("List is not empty\n");
+    }
+  }
+void insert_at_postion()
+{
+   int i,pos;
+   struct node*ptr,*temp;
+   struct node *newnode=(struct node*)malloc(sizeof(struct node));
+   printf("Enter the position to insert the node:");
+   scanf("%d",&pos);
+   printf("Enter data of newnode:");
+    scanf("%d",&newnode->data);
+    newnode->prev=NULL;
+    newnode->next=NULL;
+    ptr=Head;
+    if(pos==1)
+    {
+     newnode->next=ptr;
+     ptr->prev=newnode;
+     Head=newnode;
+    }
+    else
+    {
+     i=1;
+     while(i<pos)
+     {
+      temp=ptr;
+      ptr=ptr->next;
+      i++;
+     }
+     if(ptr==NULL&&temp!=NULL)
+     {
+       temp->next=newnode;
+       newnode->prev=temp;
+       Tail=newnode;
+     }
+     else if(temp==NULL)
+     {
+      printf("Invalid input");
+     }
+     else
+     {
+       newnode->next=ptr;
+       ptr->prev=newnode;
+       temp->next=newnode;
+       newnode->prev=temp;
+     }
+    }
+    traverse_forward();
+}
+void delete_any_position()
+{
+  int i,pos;
+  struct node*ptr,*temp;
+  printf("Enter the position to delete the node:");
+  scanf("%d",&pos);
+  ptr=Head;
+  if(pos==1)
+    {
+     Head=ptr->next;
+     ptr->next->prev=NULL;
+     free(ptr);
+    }
+    else
+    {
+     i=1;
+     while(i<pos)
+     {
+      temp=ptr;
+      ptr=ptr->next;
+      i++;
+     }
+     if(ptr==NULL&&temp!=NULL)
+     {
+       temp->prev->next=NULL;
+       Tail=temp->prev;
+       free(temp);
+     }
+     else if(temp==NULL)
+     {
+      printf("Invalid input");
+     }
+     else
+     {
+       temp->next=ptr->next;
+       ptr->next->prev=temp;
+       free(ptr);
+     }
+    }
+  traverse_forward();
+}
+void count()
+{
+   struct node*ptr;
+   ptr=Head;
+   int i=0;
+   while(ptr!=NULL)
+   {
+     i++;
+     ptr=ptr->next;
+   }
+   printf("No. of nodes:%d",i);
+}
+ 
+void search()
+{
+  int i=0,key; 
+  printf("Enter the element to be searched:");
+  scanf("%d",&key);
+  struct node*ptr= Head;
+  while(ptr!=NULL)
+  {
+    i++;
+    if(ptr->data==key)
+    {
+     printf("%d found at %d position",key,i);
+    break;
+    }
+    else
+    ptr=ptr->next;
+  }
+  if(ptr==NULL)
+  {
+    printf("Element not found");
+  }
+}
+ 
+int main()
+{
+  int c;
+  createlist();
+  while(1)
+  {
+  printf("\nEnter 1 for traverse in forward direction\n2 for traverse in backward direction\n3 to check if list is empty\n4 for inserting at any position\n5 for deletiing any position\n6 for counting the number of nodes\n7 for searching any element in the list\n8 for stoping\n");
+  scanf("%d", &c);
+  switch (c)
+  {
+  case 1:
+  printf("LINKED LIST IS:\n");
+  traverse_forward();
+  break;
+  case 2:
+  printf("\nREVERSED LINKED LIST IS:\n");
+  traverse_backward();
+  break;
+  case 3:
+  check();
+  break;
+  case 4:
+  insert_at_postion();
+  break;
+  case 5:
+  delete_any_position();
+  break;
+  case 6:
+  count();
+  break;
+  case 7:
+  search();
+  break;
+  case 8:
+  exit(1);
+  break;
+   default:
+    printf("Invalid input");
+    continue;
+  }
+}
+    return 0;
+}
