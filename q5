@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+    int data;
+    struct node* next;
+    struct node* prev;
+};
+struct node* head;
+struct node* temp;
+void create()
+{
+    int n;
+    struct node* ptr;
+    printf("Enter number of nodes: ");
+    scanf("%d", &n);
+    struct node* newnode = (struct node*)malloc(sizeof(struct node));
+    newnode->data = n;
+    newnode->next = NULL;
+    newnode->prev = NULL;
+    head = newnode;
+    ptr = newnode;
+    for (int i = 1; i <= n; i++)
+    {
+        struct node *newnode= (struct node*)malloc(sizeof(struct node));
+        printf("Enter data: ");
+        scanf("%d", &newnode->data);
+        newnode->next = NULL;
+        ptr->next = newnode;
+        ptr = newnode;
+    }
+}
+void circular()
+{
+    struct node* ptr, * temp;
+    ptr = head;
+    temp = head;
+    int i = 1;
+    while (ptr != NULL)
+    {
+        temp = ptr;
+        ptr = ptr->next;
+    }
+    temp->next = head->next;
+    head->next->prev = temp;
+}
+void traverse()
+{
+    struct node* ptr;
+    ptr = head->next;
+    printf("Number of nodes in the list:%d",head->data);
+    int n;
+    printf("\nEnter number of nodes you want to print: ");
+    scanf("%d", &n);
+        for(int i = 1; i <= n; i++)
+        {
+            printf("%d\t", ptr->data);
+            ptr = ptr->next;
+        }
+ 
+}
+int main()
+{
+    create();
+    circular();
+    traverse();
+}
