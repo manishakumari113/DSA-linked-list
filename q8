@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node
+{
+int coeff;
+int expo;
+struct node *next;
+};
+struct node*start=NULL;
+void create_poly()
+{
+struct node *ptr;
+int degree,coeff;
+printf("Enter max degree:");
+scanf("%d",&degree);
+for(int i=degree;i>=0;i--)
+{
+  printf("Enter the coefficient:");
+  scanf("%d",&coeff);
+  if(coeff!=0)
+  {
+  struct node*newnode=(struct node *)malloc(sizeof(struct node));
+  newnode->coeff=coeff;
+  newnode->expo=i;
+  newnode->next=NULL;
+  if(start==NULL)
+  {
+    start=newnode;
+    ptr=newnode;
+  }
+  else
+  {
+    ptr->next=newnode;
+    ptr=ptr->next;
+  }
+}
+}  
+} 
+void Display()
+{
+struct node*ptr=start;
+while(ptr!=NULL)
+{
+printf("%dx^%d ",ptr->coeff,ptr->expo);
+ptr=ptr->next;
+if (ptr!=NULL)
+{
+  printf("+");
+}
+}
+}
+ 
+int main()
+{
+create_poly();
+Display();
+return 0;
+}
