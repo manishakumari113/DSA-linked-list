@@ -1,0 +1,197 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+};
+struct node *head = NULL;
+struct node* temp;
+void create()
+{
+    char ch;
+    do
+    {
+        struct node* newnode = (struct node*)malloc(sizeof(struct node));
+        printf("Enter data: ");
+        scanf("%d", &newnode->data);
+        newnode->next = NULL;
+        if (head == NULL)
+        {
+            head = newnode;
+            temp = newnode;
+        }
+        else
+        {
+            temp->next = newnode;
+            temp = newnode;
+        }
+        printf("Do you want to continue?(y/n)");
+        scanf(" %c", &ch);
+    } while (ch == 'y');
+ 
+}
+void traverse()
+{
+    struct node* ptr;
+    ptr = head;
+    while (ptr != NULL)
+    {
+        printf("%d\t", ptr->data);
+        ptr = ptr->next;
+    }
+}
+void empty()
+{
+    if (head == NULL)
+        printf("Link is empty");
+    else
+        printf("No it is not empty");
+}
+ 
+void count()
+{
+    int l = 0;
+    struct node* ptr;
+    ptr==head;
+    while (ptr != NULL)
+    {
+        l++;
+        ptr = ptr->next;
+    }
+    printf("No. of nodes : %d",l);
+}
+ 
+void insert()
+{
+    struct node* newnode;
+    struct node* ptr;
+    struct node*p;
+    ptr = head;
+    int n,l=0;
+    newnode = (struct node*)malloc(sizeof(struct node));
+    printf("Enter the data");
+    scanf("%d", &newnode->data);
+    printf("Enter the desired position: ");
+    scanf("%d", &n);
+     p==head;
+    while (p != NULL)
+    {
+        l++;
+        p= p->next;
+    }
+    if (n == 0)
+    {
+        newnode->next = head;
+        head = newnode;
+    }
+    else if (n == l)
+    {
+        while (ptr->next != NULL)
+        {
+            ptr = ptr->next;
+        }
+        ptr->next = newnode;
+    }
+    else
+    {
+        for (int i = 0; i < n - 1; i++)
+        {
+            ptr = ptr->next;
+            newnode->next = ptr->next;
+            ptr->next = newnode;
+ 
+        }
+    }
+    traverse();
+}
+ 
+void delet()
+{
+    struct node* ptr;
+    struct node *prev;
+    int n;
+    int i = 1;
+    ptr = head;
+    prev = head;
+    printf("Enter the desired position:");
+    scanf("%d", &n);
+    if (head == NULL)
+    printf("List is Empty");
+    else if (n == 1)
+    {
+        head = ptr->next;
+        free(ptr);
+    }
+    else
+    {
+        while (i < n)
+        {
+            prev = ptr;
+            ptr = ptr->next;
+            i++;
+        }
+        prev->next = ptr->next;
+        free(ptr);
+    }
+    traverse();
+    empty();
+ 
+}
+ 
+void search()
+{
+    int x;
+    printf("Enter the number you want to find: ");
+    scanf("%d", &x);
+    int i=0;
+    struct node* ptr = head;
+    while (ptr != NULL)
+    {
+        i++;
+        if (ptr->data == x)
+        {
+            printf("Entered element is found at %d position", i);
+            break;
+        }
+        else
+        {
+            ptr = ptr->next;
+        }
+    }
+        if (ptr == NULL)
+        printf("Element not found");
+ 
+ 
+}
+int main()
+{
+    int c;
+    create();
+    printf("Enter 1 for traverse\n2 to check if list is empty\n3 for counting the number of nodes\n4 for insertion\n5 for deletion\n6 for searching\n");
+    scanf("%d", &c);
+    switch (c)
+    {
+    case 1:
+        traverse();
+        break;
+    case 2:
+        empty();
+        break;
+    case 3:
+        count();
+        break;
+    case 4:
+        insert();
+        break;
+    case 5:
+        delet();
+        break;
+    case 6:
+          search();
+          break;
+    default:
+        printf("Invalid input");
+    }
+    return 0;
+}
